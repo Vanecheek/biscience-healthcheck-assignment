@@ -22,11 +22,11 @@ public final class LoginPage extends BasePage {
         return this;
     }
 
-    public AppShellPage loginAs(String login, String password) {
+    public HomePage loginAs(String login, String password) {
         emailInput.fill(login);
         passwordInput.fill(password);
         loginButton.click();
-        return new AppShellPage(page).waitUntilLoaded();
+        return new HomePage(page).waitUntilLoaded();
     }
 
     public boolean isDisplayed() {

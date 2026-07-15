@@ -4,13 +4,13 @@ Recurring Java + Playwright smoke suite for critical AdClarity user journeys.
 
 ## What the healthcheck verifies
 
-The suite checks meaningful feature signals rather than surface-level page availability:
+The suite checks three focused user journeys:
 
-1. The login entry point renders usable email, password, and submit controls.
-2. A real user can authenticate and reach the Ad Intelligence application shell.
-3. **Brands:** a user can search for `Nike`, select a result, and load a report containing Media coverage and Performance overview data.
-4. **AI Chatbot:** a user can submit the built-in top-brands question and receive an interactive clarification response that can be continued.
-5. No uncaught page errors, blocking console errors, product HTTP 5xx responses, or non-aborted critical product request failures occur during these journeys.
+1. **Home page smoke:** an authenticated user reaches a usable home page with global search and navigation to both critical product areas.
+2. **Brands:** a user searches for `Nike`, selects a result, and loads a report containing Media coverage and Performance overview data.
+3. **AI Chatbot:** a user submits the built-in top-brands question and receives an interactive clarification response that can be continued.
+
+Every journey also checks for uncaught page errors, blocking console errors, product HTTP 5xx responses, and non-aborted critical product request failures.
 
 The suite deliberately avoids exhaustive functional coverage. It is small enough for frequent execution and focuses on signals that the product's main paths remain usable.
 
@@ -19,12 +19,14 @@ The suite deliberately avoids exhaustive functional coverage. It is small enough
 ```text
 src/test/java/com/biscience/healthcheck/
 ├── config/       # typed environment/.env configuration
-├── pages/        # classic Page Objects: locators and user interactions
+├── pages/        # one classic Page Object per UI page
 ├── support/      # runtime diagnostics and failure artifacts
-└── tests/        # health scenarios and assertions
+└── tests/        # one test class per product area/journey
 ```
 
-The browser is reused within a test class. Each test gets a fresh `BrowserContext` and page, so cookies and local storage cannot leak between scenarios. Assertions remain in test classes; Page Objects describe UI operations and observable state.
+The page layer contains separate `LoginPage`, `HomePage`, `BrandsPage`, and `AiChatbotPage` objects. The test layer mirrors the requested scope with `HomePageTest`, `BrandsTest`, and `AiChatbotTest`.
+
+The browser is reused within a test class. Each test gets a fresh `BrowserContext` and page, so cookies and local storage cannot leak between scenarios. Assertions remain in test classes; Page Objects contain locators, page synchronization, navigation, and user interactions.
 
 ## Prerequisites
 
@@ -78,7 +80,9 @@ mvn exec:java -Dexec.classpathScope=test \
 mvn test
 HEADLESS=true SLOW_MO_MS=0 mvn test
 HEADLESS=false SLOW_MO_MS=700 mvn test
-mvn test -Dtest=ProductHealthcheckTest
+mvn test -Dtest=HomePageTest
+mvn test -Dtest=BrandsTest
+mvn test -Dtest=AiChatbotTest
 ```
 
 ## Reports and failure diagnostics
