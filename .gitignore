@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+
+target/
+artifacts/
+playwright/.cache/
+
+.idea/
+.vscode/
+*.iml
+.DS_Store
