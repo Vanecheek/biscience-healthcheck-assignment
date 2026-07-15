@@ -7,8 +7,8 @@ Recurring Java + Playwright smoke suite for critical AdClarity user journeys.
 The suite checks three focused user journeys:
 
 1. **Home page smoke:** an authenticated user reaches a usable home page with global search and navigation to both critical product areas.
-2. **Brands:** a user searches for `Nike`, selects a result, and loads a report containing Media coverage and Performance overview data.
-3. **AI Chatbot:** a user submits the built-in top-brands question and receives an interactive clarification response that can be continued.
+2. **Brands:** the landing page exposes saved/recent reports, exact-brand search returns `Nike`, and the selected report contains Media coverage, Performance overview, and core performance metrics.
+3. **AI Chatbot:** the question entry point is usable, and a user can submit the built-in top-brands question, select clarification filters, and receive a completed response with data-source and feedback controls.
 
 Every journey also checks for uncaught page errors, blocking console errors, product HTTP 5xx responses, and non-aborted critical product request failures.
 
